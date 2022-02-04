@@ -2,37 +2,6 @@
 /usr/local/memcached/1.4.22/bin/memcached -d -m 64 -u whm -p 14221 -c 256 -P /Users/whm/memcached_14221.pid &
 
 
-drop table if exists whmtest;
-
-/*==============================================================*/
-/* Table: whmtest                                               */
-/*==============================================================*/
-create table whmtest
-(
-   id                   bigint(20) not null auto_increment,
-   name                 varchar(80),
-   type                 int(9),
-   mydate               timestamp default CURRENT_TIMESTAMP,
-   primary key (id)
-)ENGINE=InnoDB
-CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
-COMMENT='';
-
-drop table if exists zyjtest;
-
-/*==============================================================*/
-/* Table: zyjtest                                               */
-/*==============================================================*/
-create table zyjtest
-(
-   id                   bigint(20) not null auto_increment,
-   name                 varchar(80),
-   type                 int(9),
-   mydate               timestamp default CURRENT_TIMESTAMP,
-   primary key (id)
-)ENGINE=InnoDB
-CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
-COMMENT='';
 
 使用规则:
 1.有且至少有一个?
