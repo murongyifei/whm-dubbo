@@ -1,0 +1,68 @@
+配置 hosts ${替换自己本机IP}
+127.0.0.1 mylocal.whm.space
+
+安装zookeeper
+
+TK通用Mapper和Mybatis-Plus使用对比
+https://www.jianshu.com/p/d4d2362d7581
+
+TK通用Mapper
+官方网站：https://mybatis.io/
+https://mybatis.io/samples.html
+Github: https://github.com/abel533/Mapper
+https://github.com/abel533/MyBatis-Spring-Boot
+
+Mybatis-Plus
+官方网站：https://mp.baomidou.com/
+Github: https://github.com/baomidou/mybatis-plus
+https://github.com/baomidou/mybatis-plus-samples
+
+spring data jpa 或 hibernate
+//数据库不存在的这个字段
+@Transient
+private String test;
+mybatis-plus
+//数据库不存在这个字段
+@TableField(exist = false)
+private String test;
+在实体的字段上面加上这个注解后，此字段就不会映射数据库了。
+
+/Volumes/two/hebrf/zks1/bin/zkServer.sh start
+/Volumes/two/hebrf/zks2/bin/zkServer.sh start
+/Volumes/two/hebrf/zks3/bin/zkServer.sh start
+
+127.0.0.1 server1.zookeeper.dubbo.whm.space
+127.0.0.1 server2.zookeeper.dubbo.whm.space
+127.0.0.1 server3.zookeeper.dubbo.whm.space
+
+
+sh /Users/whm/whm/dubbo-monitor/bin/start.sh
+sh /Users/whm/whm/tomcat/bin/startup.sh
+
+访问: (用户:root,密码:root 或 用户:guest,密码:guest)
+http://127.0.0.1:8080
+http://127.0.0.1:8081
+
+
+whm-dubbo-api/doc/dubbo-demo-consumer.xml是consumer引用的一个范本,本来我打算是一个api直接暴露所有的service给consumer, 后来发现这样不好,建议用哪些service引入哪些service, 不过为了引入方便,还是在api层统一提供consumer配置较好
+
+whm-dubbo-service/test  下面提供了一个最最原始的service方法调用serviceImpl, 其实做单个service层的测试,可以这样写单元测试.
+
+whm-dubbo-web/main 我写了一个使用jetty启动服务的测试例子.
+whm-dubbo-web/test/.../consumer  使用的dubbo自带的demo例子,resources全部使用的test/resources下面的配置文件.
+whm-dubbo-web/test/.../consumer2 是另外一种dubbo调用参考,dubbo-demo-consumer.xml使用的main/resources下根据profile选择的对应的文件, 其他配置文件如:dubbo.properties,log4j.xml来自test/resources下面的配置文件.
+
+#如果provider不发布服务到注册中心,register="false" (不填写register参数项默认的register="true").
+<dubbo:service interface="space.whm.demo.api.service.DemoService" ref="demoService" register="false"/>
+#如果consumer要使用指定的provider可以在VM arguments中设置下面的参数
+-Ddubbo.reference.demoService.url=dubbo://127.0.0.1:20488
+-Ddubbo.reference.demoRemoteService.url=dubbo://127.0.0.1:20488
+-Ddubbo.reference.whmtestService.url=dubbo://127.0.0.1:20488
+
+当dubbo自动识别ip异常的时候,可以手动配置解决:
+如果使用的dubbo.properties
+dubbo.protocol.host=192.168.0.123
+如果Dubbo服务端使用的spring的dubbo配置文件
+【<dubbo:protocol name="dubbo" port="20885"  />】中加入【 host="192.168.0.123"】
+
+在Dubbo消费者端加入【<dubbo:protocol host="192.168.0.123" />】的配置,因为有zk不需要配置

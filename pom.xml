@@ -1,0 +1,258 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>space.whm.demo</groupId>
+	<artifactId>whm-dubbo</artifactId>
+	<version>${whm-revision}</version>
+	<packaging>pom</packaging>
+	<name>${project.artifactId}</name>
+	<description>The demo module of dubbo project</description>
+	<modules>
+		<module>whm-dubbo-api</module>
+		<!-- <module>whm-dubbo-dal-service</module> -->
+		<module>whm-dubbo-mybatis-tk-service</module>
+		<module>whm-dubbo-mybatis-plus-service</module>
+		<module>whm-dubbo-web</module>
+	</modules>
+	
+	<properties>
+		<java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        
+        <whm-revision>1.0.0-SNAPSHOT</whm-revision>
+        
+        <spring-boot-dependencies.version>2.6.2</spring-boot-dependencies.version>
+        <!-- 3.0.5有个问题没解决,先用2.7.15  2022-02-04 11:30:07.224  WARN 37160 [eduler-thread-2] o.a.d.r.c.m.ServiceInstanceMetadataUtils :  [DUBBO] Refreshing of service instance started, but instance hasn't been registered yet., dubbo version: 3.0.5, current host: 192.168.3.13 -->
+        <dubbo.version>2.7.15</dubbo.version>
+        <zookeeper.version>3.4.13</zookeeper.version>
+        <!-- generate idea copyright -->
+        <copyright>Copyright 2022 whm.space</copyright>
+        <profile.name>dubbo 2.7.15</profile.name>
+        
+        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
+        <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
+        
+        <!-- Test libs -->
+        <junit_jupiter_version>5.6.0</junit_jupiter_version>
+        <hazelcast_version>3.11.1</hazelcast_version>
+        <hamcrest_version>2.2</hamcrest_version>
+        <hibernate_validator_version>5.2.4.Final</hibernate_validator_version>
+        <el_api_version>2.2.4</el_api_version>
+        <jaxb_api_version>2.2.7</jaxb_api_version>
+        <cglib_version>2.2</cglib_version>
+        <mockito_version>3.8.0</mockito_version>
+	</properties>
+	
+	<!-- parent pom.xml中dependencyManagement 与 dependencies的区别 https://www.cnblogs.com/feibazhf/p/7886617.html -->
+	<!-- 定义子工程中核心依赖的版本管理(注意,只是版本管理) -->
+	<dependencyManagement>
+	    <dependencies>
+	        <!-- Spring Boot -->
+	        <dependency>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-dependencies</artifactId>
+	            <version>${spring-boot-dependencies.version}</version>
+	            <type>pom</type><!--假如scope是import,type必须为pom-->
+	            <scope>import</scope><!--引入三方依赖的版本设计-->
+	        </dependency>
+	
+	        <!-- Apache Dubbo  -->
+	        <dependency>
+	            <groupId>org.apache.dubbo</groupId>
+	            <artifactId>dubbo-dependencies-bom</artifactId>
+	            <version>${dubbo.version}</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+	        
+	        <!-- Apache Dubbo zookeeper -->
+	        <dependency>
+		        <groupId>org.apache.dubbo</groupId>
+		        <artifactId>dubbo-dependencies-zookeeper</artifactId>
+		        <version>${dubbo.version}</version>
+		        <type>pom</type>
+		        <scope>import</scope>
+		    </dependency>
+	    </dependencies>
+	</dependencyManagement>
+	
+	<!-- 添加子工程的所需要的公共jar包依赖 -->
+	<dependencies>
+		<!-- dubbo -->
+		<dependency>
+		   	<groupId>org.apache.dubbo</groupId>
+		    <artifactId>dubbo</artifactId>
+		    <version>${dubbo.version}</version>
+		    <exclusions>
+		        <exclusion>
+		            <groupId>io.netty</groupId>
+		            <artifactId>netty-all</artifactId>
+		        </exclusion>
+		    </exclusions>
+		</dependency>
+        
+        <!-- zookeeper -->
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+        <!-- dubbo 3.x 以后使用 -->
+        <!-- <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-x-discovery</artifactId>
+        </dependency> -->
+	</dependencies>
+	
+	
+	<build>
+		<!-- 添加子工程的所需要的公共plugin依赖 -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-resources-plugin</artifactId>
+				    <version>3.2.0</version>
+					<executions>
+						<execution>
+							<id>copy-resources</id>
+							<phase>validate</phase>
+							<goals>
+								<goal>copy-resources</goal>
+							</goals>
+							<configuration>
+								<outputDirectory>${basedir}/target/classes</outputDirectory>
+								<resources> <!-- 注意resource顺序 -->
+									<resource>
+										<directory>src/main/resources</directory>
+										<filtering>true</filtering>
+										<excludes>
+											<exclude>dev/**</exclude><!-- 不支持exclude文件夹,打包时使用assembly.xml提供exclude支持 -->
+											<exclude>local/**</exclude>
+											<exclude>product/**</exclude>
+										</excludes>
+									</resource>
+									<resource>
+										<directory>src/main/resources/${package.environment}</directory>
+										<filtering>true</filtering>
+										<includes>
+	<!--关于星号(**/*.java) 
+	(1)前面两个星号（**）表示在项目在所有文件夹（包括子文件夹）中的文件，*.java表要以.java结尾的所有文件。
+	(2)如果没有星号(/*.java)，那么直接在src目录下去寻找java文件
+	(3)如果只要一个*号的话，它只会去找src目录第一级下的java文件，不会去找它子包中的java文件，当然用三个星号(*号)它只会去找src文件第一级目录下的java文件（其实这点我不知道为什么要这么设计）。-->
+											<include>**/*.*</include>
+										</includes>
+									</resource>
+								</resources>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<source>${java.version}</source>
+						<target>${java.version}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
+					</configuration>
+				</plugin>
+				<!-- goal == single [WARNING] Assembly file: /Volumes/one/sxy618/whm-dubbo/whm-dubbo-web/target/whm-dubbo-web-1.0.0-SNAPSHOT-assembly is not a regular file (it may be a directory). It cannot be attached to the project build for installation or deployment. -->
+				<!-- goal == directory 会出现 Building Forking 多次打jar包的情况 -->
+				<!-- https://maven.apache.org/plugins-archives/maven-assembly-plugin-2.5.5/attached-mojo.html -->
+				<plugin>
+				    <groupId>org.apache.maven.plugins</groupId>
+				    <artifactId>maven-assembly-plugin</artifactId>
+				    <version>3.3.0</version>
+	                <executions>
+						<execution><!-- 配置执行器 -->
+							<id>make-assembly</id>
+							<phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<descriptors>
+									<descriptor>src/main/assembly/assembly.xml</descriptor><!--配置描述文件路径-->
+								</descriptors>
+								<recompressZippedFiles>false</recompressZippedFiles>
+			                </configuration>
+						</execution>
+					</executions>
+	      		</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+	
+	
+	<repositories>
+		<repository>
+			<id>aliyun</id>
+			<name>Nexus Public Repository</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+		</repository>
+		
+		<repository>
+			<id>whm-nexus</id>
+			<name>Nexus Public Repository</name>
+			<url>http://nexus.dev.whm.space:8081/nexus/content/groups/public</url>
+			<releases>
+			    <enabled>true</enabled>
+			</releases>
+			<snapshots>
+			    <enabled>true</enabled>  
+			    <updatePolicy>always</updatePolicy>  
+			    <checksumPolicy>warn</checksumPolicy>  
+			</snapshots>
+		</repository>
+	</repositories>
+	
+	<pluginRepositories>
+	    <pluginRepository>
+	        <id>aliyun-plugin</id>
+	        <url>https://maven.aliyun.com/repository/public</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
+	
+	<!-- https://blog.csdn.net/nandao158/article/details/121098198 -->
+	<!-- distributionManagement中的repository 表示的是项目打包成库文件后要上传到什么库地址 -->
+	<distributionManagement>
+		<repository>
+			<id>whm-releases</id>
+			<name>Nexus Release Repository</name>
+			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/releases</url>
+		</repository>
+		<snapshotRepository>
+			<id>whm-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/snapshots</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+	
+</project>

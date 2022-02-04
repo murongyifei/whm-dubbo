@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>space.whm.demo</groupId>
+		<artifactId>whm-dubbo</artifactId>
+		<version>${whm-revision}</version>
+	</parent>
+    <artifactId>whm-dubbo-mybatis-plus-service</artifactId>
+    
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- maven.test.skip=true，不执行测试用例，也不编译测试用例类。 skipTests=true，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -->
+		<maven.test.skip>true</maven.test.skip>
+		<!-- deploy 时忽略此model -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+        
+        <mybatisplus.version>3.5.1</mybatisplus.version>
+        <whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
+    </properties>
+    
+    <profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<package.environment>local</package.environment>
+				
+				<!-- 如果本地测试不把服务发布在注册中心设置为false -->
+				<register.romote>true</register.romote>
+				
+				<!-- idCenterDS -->
+				<idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+				<idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+				<idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+				<idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+				<!-- whmDM1 -->
+				<whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+				<whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8]]></whmDM1.jdbc.url>
+				<whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+				<whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+				<!-- dubbo zk -->
+				<!-- 添加B地的注册中心地址，AB两地的注册中心间用英文的|分割，（同一个服务集群的zk节点使用逗号分割）
+     			例如：dubbo.registry.address=192.168.220.128:2181|192.168.221.129:2181,192.168.221.130:2181,192.168.221.131:2181 这就是两个注册中心配置sample -->
+				<mydubbo.zk><![CDATA[127.0.0.1:2181]]></mydubbo.zk>
+				<mydubbo.protocol.host>mylocal.whm.space</mydubbo.protocol.host>
+				<mydubbo.protocol.port>20442</mydubbo.protocol.port>
+				<mydubbo.qos.enable>false</mydubbo.qos.enable>
+				<mydubbo.qos.port>30442</mydubbo.qos.port>
+				<!-- server.port -->
+				<spring.server.port>9442</spring.server.port>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<package.environment>dev</package.environment>
+				
+				<register.romote>true</register.romote>
+				
+				<!-- idCenterDS -->
+				<idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+				<idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+				<idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+				<idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+				<!-- whmDM1 -->
+				<whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+				<whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8]]></whmDM1.jdbc.url>
+				<whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+				<whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+				<!-- dubbo zk -->
+				<mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
+				<mydubbo.protocol.host>192.168.50.231</mydubbo.protocol.host>
+				<mydubbo.protocol.port>20442</mydubbo.protocol.port>
+				<mydubbo.qos.enable>true</mydubbo.qos.enable>
+				<mydubbo.qos.port>30442</mydubbo.qos.port>
+				<!-- server.port -->
+				<spring.server.port>9442</spring.server.port>
+			</properties>
+		</profile>
+		<profile>
+			<id>product</id>
+			<properties>
+				<package.environment>product</package.environment>
+				
+				<register.romote>true</register.romote>
+				
+				<!-- idCenterDS -->
+				<idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+				<idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+				<idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+				<idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+				<!-- whmDM1 -->
+				<whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+				<whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8]]></whmDM1.jdbc.url>
+				<whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+				<whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+				<!-- dubbo zk -->
+				<mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
+				<mydubbo.protocol.host></mydubbo.protocol.host>
+				<mydubbo.protocol.port>20442</mydubbo.protocol.port>
+				<mydubbo.qos.enable>true</mydubbo.qos.enable>
+				<mydubbo.qos.port>30442</mydubbo.qos.port>
+				<!-- server.port -->
+				<spring.server.port>9442</spring.server.port>
+			</properties>
+		</profile>
+	</profiles>
+
+    <dependencies>
+    	<dependency>
+			<groupId>space.whm.demo</groupId>
+			<artifactId>whm-dubbo-api</artifactId>
+			<version>${whm-dubbo-api.version}</version>
+		</dependency>
+    
+    	<dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus</artifactId>
+            <version>${mybatisplus.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+            <version>3.9.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.76</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.26</version>
+            <scope>runtime</scope>
+        </dependency>
+    
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-mate-starter</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        
+		<dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.68.Final</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-buffer</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+    
+    <build>
+		<resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>*.*</include>
+                </includes>
+                <excludes>
+                    <exclude>local</exclude>
+                    <exclude>dev</exclude>
+                    <exclude>product</exclude>
+                </excludes>
+            </resource>
+        </resources>
+		<plugins>
+			<plugin>
+			    <artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+			    <artifactId>maven-assembly-plugin</artifactId>
+      		</plugin>
+		</plugins>
+	</build>
+    
+</project>

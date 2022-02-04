@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration>
+<configuration debug="false">
+	<!--contextName></contextName -->
+    
+    <!-- <conversionRule conversionWord="traceId" converterClass="com.sxy618.log.traceid.logback.TraceIdConverter" /> -->
+	<property scope="context" name="nodeId" value="content-negotiation" />
+
+	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+		<resetJUL>true</resetJUL>
+	</contextListener>
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d %-5level %logger{36}%M - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- <appender name="stdout" class="com.sxy618.log.traceid.logback.TraceIdConsoleAppender">
+        <encoder>
+            <pattern>%d %traceId %-5level %logger{36}%M - %msg%n</pattern>
+        </encoder>
+    </appender> -->
+    
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/Users/logfiles/logs/whm-dubbo-web.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+			<maxHistory>72</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} %-4relative [%thread] %-3level %logger{26} - %marker %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.apache.http.wire" level="ERROR" additivity="false">
+		<appender-ref ref="file" />
+	</logger>
+	<root level="INFO">
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
+	</root>
+</configuration>

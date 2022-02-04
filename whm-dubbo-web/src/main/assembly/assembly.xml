@@ -1,0 +1,51 @@
+<!--  参考: http://jinnianshilongnian.iteye.com/blog/2317830  是时候闭环Java应用了, 已经收录未知笔记 -->
+<assembly>
+	<id>assembly</id>
+	<formats>
+		<!-- dir tar.gz tar.bz2 jar zip war -->
+		<format>dir</format>
+	</formats>
+	<includeBaseDirectory>false</includeBaseDirectory><!-- true的话whm-dubbo-web-1.0.0-SNAPSHOT-assembly下面会多一级目录whm-dubbo-web-1.0.0-SNAPSHOT -->
+	<fileSets>
+		<!--fileSet>
+			<directory>${project.build.directory}/dubbo/META-INF/assembly/bin</directory>
+			<outputDirectory>bin</outputDirectory>
+			<fileMode>0755</fileMode>
+		</fileSet-->
+		<fileSet>
+			<directory>src/main/assembly/operate</directory>
+			<outputDirectory>operate</outputDirectory>
+			<fileMode>0755</fileMode>
+		</fileSet>
+		<!-- <fileSet>
+			<directory>src/test/resources</directory>
+			<outputDirectory>conf</outputDirectory>
+			<fileMode>0644</fileMode>
+		</fileSet> -->
+		<fileSet>
+			<directory>src/main/assembly/conf</directory>
+			<outputDirectory>conf</outputDirectory>
+			<fileMode>0644</fileMode>
+		</fileSet>
+		<!-- classes 会出现编译jdk版本问题，未解决暂时不放开。-->
+	    <!-- <fileSet>
+	        <directory>${project.build.directory}/classes</directory>
+	        <outputDirectory>classes</outputDirectory>
+	        <filtered>true</filtered> 
+	        <excludes>
+				<exclude>dev/**</exclude>exclude dev directory OK
+				<exclude>local/**</exclude>exclude local directory OK
+				<exclude>product/**</exclude>exclude product directory OK
+			</excludes>
+			<fileMode>0644</fileMode>
+	    </fileSet> -->
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<excludes>
+	            <exclude>${project.groupId}:${project.artifactId}</exclude><!-- exclude oneself jar, for example:exclude whm-dubbo-service-1.0.0-SNAPSHOT.jar-->
+	        </excludes>
+		</dependencySet>
+	</dependencySets>
+</assembly>

@@ -1,0 +1,57 @@
+/usr/local/memcached/1.4.22/bin/memcached -d -m 64 -u whm -p 14220 -c 256 -P /Users/whm/memcached_14220.pid &
+/usr/local/memcached/1.4.22/bin/memcached -d -m 64 -u whm -p 14221 -c 256 -P /Users/whm/memcached_14221.pid &
+
+
+drop table if exists whmtest;
+
+/*==============================================================*/
+/* Table: whmtest                                               */
+/*==============================================================*/
+create table whmtest
+(
+   id                   bigint(20) not null auto_increment,
+   name                 varchar(80),
+   type                 int(9),
+   mydate               timestamp default CURRENT_TIMESTAMP,
+   primary key (id)
+)ENGINE=InnoDB
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
+COMMENT='';
+
+drop table if exists zyjtest;
+
+/*==============================================================*/
+/* Table: zyjtest                                               */
+/*==============================================================*/
+create table zyjtest
+(
+   id                   bigint(20) not null auto_increment,
+   name                 varchar(80),
+   type                 int(9),
+   mydate               timestamp default CURRENT_TIMESTAMP,
+   primary key (id)
+)ENGINE=InnoDB
+CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'
+COMMENT='';
+
+使用规则:
+1.有且至少有一个?
+<list name="Whmtest_All_Id_List" sqlitem="select id from whmtest where 0=?" sqlType="hsql"
+		keyProperty="temp" valueProperty="id" />
+		
+2.凡是可能update的值不能当做常量值定义在sql中
+<list name="Whmtest_List_By_name" sqlitem="select id from whmtest where name=? and type = ? " sqlType="hsql" 
+			    keyProperty="name,type" valueProperty="id" />
+			    
+3. in/or/is null/is not null/函数等如果要使用cache不能定义在sql中.
+<list name="Articletype_by_Articletype" sqlitem="select articleTypeId from t_articletype t where t.typeSys=? and typeStatus=1 and typeSys in(1,2)" sqlType="hsql" 
+			    keyProperty="typeSys" valueProperty="articleTypeId" />
+<list name="Registration_list_userId" sqlitem="select registrationId from t_registration where userId=? and numSourceId is not null" sqlType="hsql" 
+			    keyProperty="userId" valueProperty="registrationId" />
+<list name="Registration_list_registrationDate_userId" sqlitem="select registrationId from t_registration where date_format(insertTime,'%Y-%m-%d')=? and userId=? and numSourceId is not null" sqlType="hsql" 
+			    keyProperty="insertTime,userId" valueProperty="registrationId" />
+select taskId from t_TaskMyself where userId=? and (taskState=? or taskState=? or taskState=? )  
+			    
+4.范围性的方式,如果要使用cache不能定义在sql中.
+select t.numSourceId from t_numsource t where numSourceState =1 and DATE_FORMAT(useTime,'%Y-%m-%d') &lt; ?
+

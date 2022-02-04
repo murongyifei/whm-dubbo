@@ -1,0 +1,85 @@
+git@develop.herfdev.com:whm/whm-dubbo.git
+
+0.whm-dubbo
+-N deploy
+
+1.whm-dubbo-api
+-U -Dmaven.test.skip=true -P dev -pl whm-dubbo-api clean install deploy
+
+2.whm-dubbo-service
+-U -Dmaven.test.skip=true -P dev -pl whm-dubbo-service clean package
+#=========shell start
+#========jenkins如果在shell里使用nohup发现还是不能后台运行，直接挂掉。那么可以在jenkins命令里加上BUILD_ID=dontKillMe解决
+#==https://blog.csdn.net/dmw412724/article/details/105990378/ 
+#========
+BUILD_ID=DONTKILLME;
+CUR_PROJECT_NAME=whm-dubbo-service;
+CUR_PROJECT_VERSION=1.0.0-SNAPSHOT;
+CUR_USER=root;
+CUR_IP=127.0.0.1;
+CUR_PORT=22;
+CUR_PROJECT_PATH=/opt/whm-dubbo;
+
+#tar -zxvf ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly.tar.gz -C ${WORKSPACE}/${CUR_PROJECT_NAME}/target/;
+#sleep 1;
+#rm -rf ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}/lib/${CUR_PROJECT_NAME}*.jar;
+#sleep 1;
+mv ${WORKSPACE}/${CUR_PROJECT_NAME}/target/classes ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/;
+sleep 1;
+
+rsync -avz --delete --exclude='**/classes/dev' --exclude='**/classes/local' --exclude='**/classes/product' --port=${CUR_PORT} ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/* ${CUR_USER}@${CUR_IP}:${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/;
+sleep 1;
+ssh $CUR_USER@$CUR_IP -p ${CUR_PORT} "sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/stop.sh; sleep 1; sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/start.sh";
+#=========shell end
+
+
+3.whm-dubbo-web
+-U -Dmaven.test.skip=true -P dev -pl whm-dubbo-web clean package
+#=========shell start
+CUR_PROJECT_NAME=whm-dubbo-web;
+CUR_PROJECT_VERSION=1.0.0-SNAPSHOT;
+CUR_USER=root;
+CUR_IP=127.0.0.1;
+CUR_PORT=22;
+CUR_PROJECT_PATH=/opt/whm-dubbo;
+
+#tar -zxvf ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly.tar.gz -C ${WORKSPACE}/${CUR_PROJECT_NAME}/target/;
+#sleep 1;
+#rm -rf ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}/lib/${CUR_PROJECT_NAME}*.jar;
+#sleep 1;
+mv ${WORKSPACE}/${CUR_PROJECT_NAME}/target/classes ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/;
+sleep 1;
+
+rsync -avz --delete --exclude='**/classes/dev' --exclude='**/classes/local' --exclude='**/classes/product' --port=${CUR_PORT} ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/* ${CUR_USER}@${CUR_IP}:${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/;
+sleep 1;
+ssh $CUR_USER@$CUR_IP -p ${CUR_PORT} "sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/stop.sh; sleep 1; sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/start.sh";
+#=========shell end
+
+
+
+
+
+
+BUILD_ID=DONTKILLME;
+CUR_PROJECT_NAME=whm-dubbo-dal-service;
+CUR_PROJECT_VERSION=1.0.0-SNAPSHOT;
+CUR_PROJECT_PATH=/hdd3/whm-dubbo;
+
+mv ${WORKSPACE}/${CUR_PROJECT_NAME}/target/classes ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/;
+sleep 1;
+
+#==================远程
+#CUR_USER=root;
+#CUR_IP=127.0.0.1;
+#CUR_PORT=22;
+#rsync -avz --delete --exclude='**/classes/dev' --exclude='**/classes/local' --exclude='**/classes/product' --port=${CUR_PORT} ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/* ${CUR_USER}@${CUR_IP}:${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/;
+#sleep 1;
+#ssh $CUR_USER@$CUR_IP -p ${CUR_PORT} "sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/restart.sh";
+
+#===================本地
+rsync -avz --delete --exclude='**/classes/dev' --exclude='**/classes/local' --exclude='**/classes/product' ${WORKSPACE}/${CUR_PROJECT_NAME}/target/${CUR_PROJECT_NAME}-${CUR_PROJECT_VERSION}-assembly/* ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/
+sleep 1;
+sh ${CUR_PROJECT_PATH}/${CUR_PROJECT_NAME}/operate/restart.sh
+
+
+

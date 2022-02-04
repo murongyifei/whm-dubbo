@@ -1,0 +1,105 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>space.whm.demo</groupId>
+		<artifactId>whm-dubbo</artifactId>
+		<version>${whm-revision}</version>
+	</parent>
+	<artifactId>whm-dubbo-api</artifactId>
+	<packaging>jar</packaging>
+	<name>${project.artifactId}</name>
+	<description>The demo module of dubbo project</description>
+	
+	<properties>
+		<java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	
+	<profiles>
+		<profile>
+			<id>local</id>
+			<properties>
+				<package.environment>local</package.environment>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<package.environment>dev</package.environment>
+			</properties>
+		</profile>
+		<profile>
+			<id>product</id>
+			<properties>
+				<package.environment>product</package.environment>
+			</properties>
+		</profile>
+	</profiles>
+	
+	<dependencies>
+		<dependency>
+		    <groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+		</dependency>
+  		<dependency>
+  			<groupId>org.mybatis</groupId>
+  			<artifactId>mybatis</artifactId>
+  			<version>3.5.9</version>
+  		</dependency>
+		<dependency>
+		    <groupId>com.baomidou</groupId>
+		    <artifactId>mybatis-plus-annotation</artifactId>
+		    <version>3.5.1</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>*.*</include>
+				</includes>
+				<excludes>
+					<exclude>local</exclude>
+					<exclude>dev</exclude>
+					<exclude>product</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+			    <artifactId>maven-resources-plugin</artifactId>
+			</plugin>
+			<plugin>
+			    <artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<!-- 打包源码的插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.2.1</version>
+				<!-- 进行package命令时就可以将源码同时进行打包 -->
+  				<!-- 所以我们需要绑定source插件到我们default生命周期的package阶段 -->
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<!-- 定义一个阶段，这个阶段是package -->
+  						<phase>package</phase>
+						<goals>
+							<!-- goal==jar [WARNING] artifact space.whm.demo:whm-dubbo-api:java-source:sources:1.0.0-SNAPSHOT already attached, replace previous instance  -->
+							<!-- https://blog.csdn.net/z69183787/article/details/54344493 -->
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>
