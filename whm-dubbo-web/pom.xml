@@ -242,6 +242,18 @@
       		<plugin>
 			    <artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
+			<!-- https://stackoverflow.com/questions/13218313/unable-to-disable-generation-of-empty-jar-maven-jar-plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.2.2</version>
+				<executions>
+					<execution>
+						<id>default-jar</id>
+						<phase>none</phase><!-- 变相配置不打jar包,留给assembly去做 It will place the default jar creation in the none phase, it will never be run. -->
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
       		</plugin>
