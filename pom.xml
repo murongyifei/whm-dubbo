@@ -203,8 +203,9 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-	
+
+	<!-- 关于Maven Mirrors 的正确使用,要结合setting.xml一起使用,实现多镜像配置. -->
+	<!-- https://blog.csdn.net/q42368773/article/details/107216016 -->
 	<repositories>
 		<repository>
 			<id>aliyun</id>
