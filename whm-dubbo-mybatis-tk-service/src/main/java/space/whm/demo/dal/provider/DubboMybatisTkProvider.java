@@ -28,8 +28,6 @@ import tk.mybatis.spring.annotation.MapperScan;
 /**
  * Dubbo Registry ZooKeeper Provider Bootstrap
  *
- * @see DefaultDemoService
- * @since 2.7.0
  */
 @SpringBootApplication
 @EnableDubbo(scanBasePackages = {"space.whm.demo.dal.provider.service.impl"})

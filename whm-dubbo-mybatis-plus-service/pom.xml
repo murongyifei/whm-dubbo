@@ -210,9 +210,45 @@
             </resource>
         </resources>
 		<plugins>
-			<plugin>
-			    <artifactId>maven-resources-plugin</artifactId>
-			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources> <!-- 注意resource顺序 -->
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>dev/**</exclude><!-- 不支持exclude文件夹,打包时使用assembly.xml提供exclude支持 -->
+                                        <exclude>local/**</exclude>
+                                        <exclude>product/**</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/${package.environment}</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <!--关于星号(**/*.java)
+                                        (1)前面两个星号（**）表示在项目在所有文件夹（包括子文件夹）中的文件，*.java表要以.java结尾的所有文件。
+                                        (2)如果没有星号(/*.java)，那么直接在src目录下去寻找java文件
+                                        (3)如果只要一个*号的话，它只会去找src目录第一级下的java文件，不会去找它子包中的java文件，当然用三个星号(*号)它只会去找src文件第一级目录下的java文件（其实这点我不知道为什么要这么设计）。-->
+                                        <include>**/*.*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 			<plugin>
 			    <artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
