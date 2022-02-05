@@ -22,6 +22,8 @@
         <maven.deploy.skip>true</maven.deploy.skip>
 		
 		<mapper.starter.version>2.1.5</mapper.starter.version>
+
+        <whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
 	</properties>
 	
 	<profiles>
@@ -29,8 +31,7 @@
 			<id>local</id>
 			<properties>
 				<package.environment>local</package.environment>
-				<whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
-				
+
 				<!-- 如果本地测试不把服务发布在注册中心设置为false -->
 				<register.romote>true</register.romote>
 				
@@ -63,8 +64,7 @@
 			<id>dev</id>
 			<properties>
 				<package.environment>dev</package.environment>
-				<whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
-				
+
 				<register.romote>true</register.romote>
 				
 				<!-- idCenterDS -->
@@ -91,8 +91,7 @@
 			<id>product</id>
 			<properties>
 				<package.environment>product</package.environment>
-				<whm-dubbo-api.version>1.0.0</whm-dubbo-api.version>
-				
+
 				<register.romote>true</register.romote>
 				
 				<!-- idCenterDS -->

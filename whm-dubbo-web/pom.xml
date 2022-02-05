@@ -24,6 +24,8 @@
 		
 		<thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
 		<thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
+
+		<whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
 	</properties>
 	
 	<profiles>
@@ -31,7 +33,6 @@
 			<id>local</id>
 			<properties>
 				<package.environment>local</package.environment>
-				<whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
 				<!-- dubbo zk -->
 				<!-- 多注册中心配置，竖号分隔表示同时连接多个不同注册中心，同一注册中心的多个集群地址用逗号分隔 
     			<dubbo:registry address="192.168.220.128:2181|192.168.221.129:2181,192.168.221.130:2181,192.168.221.131:2181" /> -->
@@ -50,7 +51,6 @@
 			<id>dev</id>
 			<properties>
 				<package.environment>dev</package.environment>
-				<whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
 				<!-- dubbo zk -->
 				<mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
 				<mydubbo.protocol.host></mydubbo.protocol.host>
@@ -64,7 +64,6 @@
 			<id>product</id>
 			<properties>
 				<package.environment>product</package.environment>
-				<whm-dubbo-api.version>1.0.0</whm-dubbo-api.version>
 				<!-- dubbo zk -->
 				<mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
 				<mydubbo.protocol.host></mydubbo.protocol.host>
