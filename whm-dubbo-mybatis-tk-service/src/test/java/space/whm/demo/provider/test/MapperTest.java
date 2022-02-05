@@ -2,15 +2,14 @@ package space.whm.demo.provider.test;
 
 import org.apache.dubbo.config.spring.context.annotation.DubboComponentScan;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
-
 import space.whm.demo.api.entity.City;
 import space.whm.demo.api.service.WhmtestService;
 import space.whm.demo.dal.provider.dao.CityMapper;
 import tk.mybatis.spring.annotation.MapperScan;
+
+import javax.annotation.Resource;
 
 /**
  * @author whm
@@ -20,13 +19,12 @@ import tk.mybatis.spring.annotation.MapperScan;
 @SpringBootApplication
 @MapperScan(basePackages = "space.whm.demo.dal.provider.dao")
 @DubboComponentScan("space.whm.demo.dal.provider.service.impl")
-@EnableAutoConfiguration
 public class MapperTest {
 
-	@Autowired
+	@Resource
 	private CityMapper cityMapper;
 	
-	@Autowired
+	@Resource
 	private WhmtestService whmtestService;
 	
     @Test
