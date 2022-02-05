@@ -66,3 +66,52 @@ dubbo.protocol.host=192.168.0.123
 【<dubbo:protocol name="dubbo" port="20885"  />】中加入【 host="192.168.0.123"】
 
 在Dubbo消费者端加入【<dubbo:protocol host="192.168.0.123" />】的配置,因为有zk不需要配置
+
+
+
+
+=================pom.xml 配置备份
+<!-- 关于Maven Mirrors 的正确使用,要结合setting.xml一起使用,实现多镜像配置. -->
+	<!-- https://blog.csdn.net/q42368773/article/details/107216016 -->
+	<!-- https://www.cnblogs.com/ctxsdhy/p/8482725.html -->
+	<repositories>
+		<repository>
+			<id>aliyun</id>
+			<name>Nexus Public Repository</name>
+			<url>https://maven.aliyun.com/repository/public</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>whm</id>
+			<name>Nexus Public Repository</name>
+			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+<!--				<updatePolicy>always</updatePolicy>-->
+<!--				<checksumPolicy>warn</checksumPolicy>-->
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+	    <pluginRepository>
+	        <id>nexus</id>
+	        <url>https://maven.aliyun.com/repository/public</url>
+	        <releases>
+	            <enabled>true</enabled>
+	        </releases>
+	        <snapshots>
+	            <enabled>false</enabled>
+	        </snapshots>
+	    </pluginRepository>
+	</pluginRepositories>
+==================pom.xml 配置备份

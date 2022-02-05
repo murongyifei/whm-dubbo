@@ -18,7 +18,9 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <!-- maven.test.skip=true，不执行测试用例，也不编译测试用例类。 skipTests=true，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -->
 		<maven.test.skip>true</maven.test.skip>
-		<!-- deploy 时忽略此model -->
+        <!-- install 时忽略此model -->
+        <maven.install.skip>true</maven.install.skip>
+        <!-- deploy 时忽略此model -->
         <maven.deploy.skip>true</maven.deploy.skip>
 		
 		<mapper.starter.version>2.1.5</mapper.starter.version>

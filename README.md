@@ -1,6 +1,9 @@
 # whm-dubbo
 dubbo3.0.5有个问题没解决,先用2.7.15
 
+数据库脚本:=======
+doc/test.sql
+
 配置hosts:=======
 127.0.0.1 mylocal.whm.space
 

@@ -165,57 +165,14 @@
 		</pluginManagement>
 	</build>
 
-	<!-- 关于Maven Mirrors 的正确使用,要结合setting.xml一起使用,实现多镜像配置. -->
-	<!-- https://blog.csdn.net/q42368773/article/details/107216016 -->
-	<repositories>
-		<repository>
-			<id>aliyun</id>
-			<name>Nexus Public Repository</name>
-			<url>https://maven.aliyun.com/repository/public</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>whm</id>
-			<name>Nexus Public Repository</name>
-			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-<!--				<updatePolicy>always</updatePolicy>-->
-<!--				<checksumPolicy>warn</checksumPolicy>-->
-			</snapshots>
-		</repository>
-	</repositories>
-	
-	<pluginRepositories>
-	    <pluginRepository>
-	        <id>nexus</id>
-	        <url>https://maven.aliyun.com/repository/public</url>
-	        <releases>
-	            <enabled>true</enabled>
-	        </releases>
-	        <snapshots>
-	            <enabled>false</enabled>
-	        </snapshots>
-	    </pluginRepository>
-	</pluginRepositories>
-	
 	<!-- https://blog.csdn.net/nandao158/article/details/121098198 -->
 	<!-- distributionManagement中的repository 表示的是项目打包成库文件后要上传到什么库地址 -->
 	<distributionManagement>
-		<repository>
-			<id>whm-releases</id>
-			<name>Nexus Release Repository</name>
-			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/releases</url>
-		</repository>
+<!--		<repository>-->
+<!--			<id>whm-releases</id>-->
+<!--			<name>Nexus Release Repository</name>-->
+<!--			<url>http://nexus.dev.whm.space:8081/nexus/content/repositories/releases</url>-->
+<!--		</repository>-->
 		<snapshotRepository>
 			<id>whm-snapshots</id>
 			<name>Nexus Snapshot Repository</name>
