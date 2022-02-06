@@ -85,12 +85,6 @@
 		   	<groupId>org.apache.dubbo</groupId>
 		    <artifactId>dubbo</artifactId>
 		    <version>${dubbo.version}</version>
-		    <exclusions>
-		        <exclusion>
-		            <groupId>io.netty</groupId>
-		            <artifactId>netty-all</artifactId>
-		        </exclusion>
-		    </exclusions>
 		</dependency>
         
         <!-- zookeeper -->

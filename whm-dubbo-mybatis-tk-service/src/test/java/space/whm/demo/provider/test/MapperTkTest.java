@@ -19,7 +19,7 @@ import javax.annotation.Resource;
 @SpringBootApplication
 @MapperScan(basePackages = "space.whm.demo.dal.provider.dao")
 @DubboComponentScan("space.whm.demo.dal.provider.service.impl")
-public class MapperTest {
+public class MapperTkTest {
 
 	@Resource
 	private CityMapper cityMapper;

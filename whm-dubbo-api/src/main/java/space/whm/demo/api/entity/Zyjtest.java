@@ -59,6 +59,7 @@ public class Zyjtest implements Serializable {
 		//数据库不存在的这个字段
 		@Transient
 		private String test;
+
 		mybatis-plus
 		//数据库不存在这个字段
 		@TableField(exist = false)

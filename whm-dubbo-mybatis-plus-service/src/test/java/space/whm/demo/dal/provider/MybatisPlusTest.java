@@ -22,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-class MysqlTest {
+public class MybatisPlusTest {
     @Resource
     private TestDataMapper testDataMapper;
     @Resource

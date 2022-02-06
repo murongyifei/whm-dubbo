@@ -1,8 +1,8 @@
 package space.whm.demo.consumer;
 
-import java.util.concurrent.ThreadPoolExecutor;
+//import java.util.concurrent.ThreadPoolExecutor;
 
-import org.apache.curator.shaded.com.google.common.util.concurrent.ThreadFactoryBuilder;
+//import org.apache.curator.shaded.com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
