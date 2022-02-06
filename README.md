@@ -27,3 +27,11 @@ https://blog.csdn.net/weixin_35098081/article/details/114773552
 mvn versions:set -DnewVersion=1.0.1-SNAPSHOT
 会发现在父模块和子模块下面都生成maven的版本控制文件(姑且这么叫吧,虽然看起来就是一个文件备份)pom.xml.versionsBackup.
 ??? mvn versions:update-child-modules
+
+IDEA Build Project 编译时不替换占位符解决办法=======
+File -> Settings -> Build,Execution,Deployment -> Build Tools -> Maven -> Runner
+勾上，将编译托管给maven来解决。
+![image](https://user-images.githubusercontent.com/9797304/152683330-5d9e0f3f-2352-41f1-b2b7-5c42562c1133.png)
+
+![image](https://user-images.githubusercontent.com/9797304/152683459-a46d9b75-109b-42d6-935b-6e3de8b3064a.png)
+
