@@ -23,16 +23,35 @@ public class Zyjtest implements Serializable {
 	
 
 	//columns START
+	/**
+	 使用id自增模式=========start
+	 @Id
+	 @GeneratedValue(strategy=GenerationType.IDENTITY)
+	 @Column(name = "id")
+	 使用id自增模式=========end
+
+	 使用idcenter模式=========start
+	 @Id
+	 @Column(name = "id")
+	 @GeneratedValue(generator = "whm_test_seq")
+	 @GenericGenerator(name = "whm_test_seq", strategy = "space.whm.db.dal.id.util.IdGenerator", parameters = { @Parameter(name = "sequence", value = "whm_test_seq") })
+	 使用idcenter模式=========end
+	  * @return the id
+	 */
 	@Id
-	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "id")
 	private Long id;
 	
 	@Column(name = "name")
 	private String name;
-	
+
+	/*
+		WARN t.m.m.m.r.DefaultEntityResolve - MYBATIS 通用 Mapper 警告信息: <[EntityColumn{table=zyjtest, property='type', column='type', javaType=int, jdbcType=null, typeHandler=null, id=false, identity=false, blob=false, generator='null', orderBy='null', orderPriority='0', insertable=true, updatable=true, order=DEFAULT}]> 使用了基本类型，基本类型在动态 SQL 中由于存在默认值，因此任何时候都不等于 null，建议修改基本类型为对应的包装类型!
+	 	把类型定义为封装类型
+	 */
 	@Column(name = "type")
-	private int type;
+	private Integer type;
 	//columns END
 	
 	/*
@@ -52,6 +71,7 @@ public class Zyjtest implements Serializable {
 	@TableField(exist = false)
 	@Transient
 	private int temp=0;
+
 	public int getTemp() {
 		return temp;
 	}
@@ -74,44 +94,22 @@ public class Zyjtest implements Serializable {
 	public void setId(Long value) {
 		this.id = value;
 	}
-	
-	/**
-		使用id自增模式=========start
-		@Id
-		@GeneratedValue(strategy=GenerationType.IDENTITY)
-		@Column(name = "id")
-		使用id自增模式=========end
-		
-		使用idcenter模式=========start
-		@Id
-		@Column(name = "id")
-		@GeneratedValue(generator = "whm_test_seq")
-		@GenericGenerator(name = "whm_test_seq", strategy = "space.whm.db.dal.id.util.IdGenerator", parameters = { @Parameter(name = "sequence", value = "whm_test_seq") })
-		使用idcenter模式=========end
-	 * @return the id
-	 */
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id")
 	public Long getId() {
 		return this.id;
 	}
 	
 			
-	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
-	
 	public void setName(String value) {
 		this.name = value;
 	}
 	
-	@Column(name = "type")
-	public int getType() {
+	public Integer getType() {
 		return type;
 	}
-	public void setType(int type) {
+	public void setType(Integer type) {
 		this.type = type;
 	}
 }
