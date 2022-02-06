@@ -20,29 +20,30 @@
 		<java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        
-        <whm-revision>1.0.0-SNAPSHOT</whm-revision>
-        
-        <spring-boot-dependencies.version>2.6.2</spring-boot-dependencies.version>
-        <!-- 3.0.5有个问题没解决,先用2.7.15  2022-02-04 11:30:07.224  WARN 37160 [eduler-thread-2] o.a.d.r.c.m.ServiceInstanceMetadataUtils :  [DUBBO] Refreshing of service instance started, but instance hasn't been registered yet., dubbo version: 3.0.5, current host: 192.168.3.13 -->
-        <dubbo.version>2.7.15</dubbo.version>
-        <zookeeper.version>3.4.13</zookeeper.version>
-        <!-- generate idea copyright -->
-        <copyright>Copyright 2022 whm.space</copyright>
-        <profile.name>dubbo 2.7.15</profile.name>
-        
-        <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
-        <apache-rat-plugin.version>0.12</apache-rat-plugin.version>
-        
-        <!-- Test libs -->
-        <junit_jupiter_version>5.6.0</junit_jupiter_version>
-        <hazelcast_version>3.11.1</hazelcast_version>
-        <hamcrest_version>2.2</hamcrest_version>
-        <hibernate_validator_version>5.2.4.Final</hibernate_validator_version>
-        <el_api_version>2.2.4</el_api_version>
-        <jaxb_api_version>2.2.7</jaxb_api_version>
-        <cglib_version>2.2</cglib_version>
-        <mockito_version>3.8.0</mockito_version>
+
+		<!-- generate idea copyright -->
+		<profile.name>dubbo 2.7.15</profile.name>
+		<copyright>Copyright 2022 whm.space</copyright>
+		<spring-boot-dependencies.version>2.6.2</spring-boot-dependencies.version>
+		<!-- 3.0.5有个问题没解决,先用2.7.15  2022-02-04 11:30:07.224  WARN 37160 [eduler-thread-2] o.a.d.r.c.m.ServiceInstanceMetadataUtils :  [DUBBO] Refreshing of service instance started, but instance hasn't been registered yet., dubbo version: 3.0.5, current host: 192.168.3.13 -->
+		<dubbo.version>2.7.15</dubbo.version>
+		<zookeeper.version>3.4.13</zookeeper.version>
+
+		<!-- api 主要用到了com.baomidou.mybatisplus.annotation.TableField 和 whm-dubbo-mybatis-plus-service 都用到了,提取到一出 -->
+		<mybatis-plus.version>3.5.1</mybatis-plus.version>
+		<mybatis.version>3.5.9</mybatis.version>
+
+		<!-- Test libs -->
+		<junit_jupiter_version>5.6.0</junit_jupiter_version>
+		<hazelcast_version>3.11.1</hazelcast_version>
+		<hamcrest_version>2.2</hamcrest_version>
+		<hibernate_validator_version>5.2.4.Final</hibernate_validator_version>
+		<el_api_version>2.2.4</el_api_version>
+		<jaxb_api_version>2.2.7</jaxb_api_version>
+		<cglib_version>2.2</cglib_version>
+		<mockito_version>3.8.0</mockito_version>
+
+		<!-- other -->
 	</properties>
 	
 	<!-- parent pom.xml中dependencyManagement 与 dependencies的区别 https://www.cnblogs.com/feibazhf/p/7886617.html -->
@@ -111,10 +112,10 @@
             <artifactId>curator-recipes</artifactId>
         </dependency>
         <!-- dubbo 3.x 以后使用 -->
-        <!-- <dependency>
+        <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-x-discovery</artifactId>
-        </dependency> -->
+        </dependency>
 	</dependencies>
 	
 	
@@ -142,7 +143,7 @@
 	                <executions>
 						<execution><!-- 配置执行器 -->
 							<id>make-assembly</id>
-							<phase>install</phase><!-- assembly绑定到install生命周期阶段上 -->
+							<phase>deploy</phase><!-- assembly绑定到生命周期 -->
 							<goals>
 								<goal>single</goal>
 							</goals>

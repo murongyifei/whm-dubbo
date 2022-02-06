@@ -20,7 +20,6 @@
         <!-- deploy 时忽略此model -->
         <maven.deploy.skip>true</maven.deploy.skip>
         
-        <mybatisplus.version>3.5.1</mybatisplus.version>
         <whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
     </properties>
     
@@ -124,12 +123,12 @@
     	<dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatisplus.version}</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
-            <version>${mybatisplus.version}</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
         <dependency>
             <groupId>p6spy</groupId>
@@ -198,19 +197,18 @@
     </dependencies>
     
     <build>
-		<resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>*.*</include>
-                </includes>
-                <excludes>
-                    <exclude>local</exclude>
-                    <exclude>dev</exclude>
-                    <exclude>product</exclude>
-                </excludes>
-            </resource>
-        </resources>
+        <!--解决IDE中调试时target目录下资源文件中变量未被替换问题,并未解决问题.-->
+<!--        <resources>-->
+<!--            <resource>-->
+<!--                <filtering>true</filtering>-->
+<!--                <directory>src/main/resources</directory>-->
+<!--                <includes>-->
+<!--                    <include>**/*.yml</include>-->
+<!--                    <include>**/*.properties</include>-->
+<!--                    <include>**/*.xml</include>-->
+<!--                </includes>-->
+<!--            </resource>-->
+<!--        </resources>-->
 		<plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

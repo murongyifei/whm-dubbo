@@ -281,10 +281,15 @@
 	</dependencies>
 	<build>
 		<resources>
+            <!-- 解决IDE中调试时target目录下资源文件中变量未被替换问题
+                ,但如果.yml .properties .xml资源文件有变化的话,就要使用mvn compile+ -->
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <includes>
-                    <include>*.*</include>
+                    <include>**/*.yml</include>
+                    <include>**/*.properties</include>
+                    <include>**/*.xml</include>
                 </includes>
                 <excludes>
                     <exclude>local</exclude>
