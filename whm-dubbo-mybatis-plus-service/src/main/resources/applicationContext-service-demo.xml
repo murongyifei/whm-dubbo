@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+  xsi:schemaLocation="
+  	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+	<!-- 对外提供的服务 -->
+	<!--
+		整个spring容器有且只有一个DemoServiceImpl实例，autowired通过 byType自动装载 demoServiceImpl;
+		如果出现两个相同名称实例，spring会覆盖其中一个，xml优先级高于注解；
+		xml中同时配置两个相同id的bean，直接校验不通过报错如下:
+		The bean 'demoServiceImpl', defined in class path resource [applicationContext-service-demo.xml], could not be registered. A bean with that name has already been defined in file [/Volumes/one/pzkj/whm-dubbo/whm-dubbo-mybatis-plus-service/target/classes/space/whm/demo/dal/provider/service/impl/DemoServiceImpl.class] and overriding is disabled.
+		-->
+<!--	<bean id="demoServiceImpl" class="space.whm.demo.dal.provider.service.impl.DemoServiceImpl" />-->
+	<dubbo:service interface="space.whm.demo.api.service.DemoService" ref="demoServiceImpl" />
+	
+</beans>

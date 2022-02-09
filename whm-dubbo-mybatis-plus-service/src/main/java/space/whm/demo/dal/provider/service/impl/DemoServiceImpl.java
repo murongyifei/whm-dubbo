@@ -18,14 +18,14 @@ package space.whm.demo.dal.provider.service.impl;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.dubbo.config.annotation.DubboService;
 import org.apache.dubbo.rpc.RpcContext;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import space.whm.demo.api.service.DemoService;
 
 @Slf4j
-@DubboService
+@Service
 public class DemoServiceImpl implements DemoService {
 	
 	@Override
