@@ -2,7 +2,8 @@
 dubbo3.0.5有个问题没解决,先用2.7.15
 
 数据库脚本:=======
-doc/test.sql
+doc/test.sql 
+doc/user_info.sql
 
 配置hosts:=======
 127.0.0.1 mylocal.whm.space
@@ -11,7 +12,8 @@ doc/test.sql
 https://archive.apache.org/dist/zookeeper/zookeeper-3.4.13/
 
 启动类:==========
-两个Provider
+三个Provider
+DubboMybatisProvider
 DubboMybatisPlusProvider
 DubboMybatisTkProvider
 一个Consumer
@@ -19,7 +21,7 @@ DubboConsumer
 启动后访问地址:====
 http://localhost:9440/test
 http://localhost:9440/testth
-
+http://localhost:9440/user/getUserInfoById?id=2
 
 maven 如何解决pom.xml 父子版本号变动的问题===========
 JAVA子父工程版本控制_Maven更新父子模块的版本号
