@@ -10,4 +10,7 @@
                      interface="space.whm.demo.api.service.DemoService" url="dubbo://mylocal.whm.space:20441" />                 
 	<dubbo:reference id="whmtestService"
                      interface="space.whm.demo.api.service.WhmtestService" url="dubbo://mylocal.whm.space:20441"/>
+    <dubbo:reference id="userInfoService"
+                     interface="com.example.demo.smm.service.UserInfoService" url="dubbo://mylocal.whm.space:20441"/>
+
 </beans>

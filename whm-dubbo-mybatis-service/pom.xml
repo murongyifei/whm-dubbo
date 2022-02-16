@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>space.whm.demo</groupId>
+        <artifactId>whm-dubbo</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <groupId>com.example.demo</groupId>
+    <artifactId>whm-dubbo-mybatis-service</artifactId>
+    <name>whm-dubbo-mybatis-service</name>
+    <description>Mysql And Mybatis Demo project for Spring Boot</description>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- maven.test.skip=true，不执行测试用例，也不编译测试用例类。 skipTests=true，不执行测试用例，但编译测试用例类生成相应的class文件至target/test-classes下。 -->
+        <skipTests>true</skipTests>
+        <!-- install 时忽略此model -->
+        <maven.install.skip>true</maven.install.skip>
+        <!-- deploy 时忽略此model -->
+        <maven.deploy.skip>true</maven.deploy.skip>
+
+        <whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
+    </properties>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <package.environment>local</package.environment>
+
+                <!-- 如果本地测试不把服务发布在注册中心设置为false -->
+                <register.romote>true</register.romote>
+
+                <!-- idCenterDS -->
+                <idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+                <idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+                <idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+                <idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+                <!-- whmDM1 -->
+                <whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+                <whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=utf-8]]></whmDM1.jdbc.url>
+                <whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+                <whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+                <!-- dubbo zk -->
+                <!-- 添加B地的注册中心地址，AB两地的注册中心间用英文的|分割，（同一个服务集群的zk节点使用逗号分割）
+                 例如：dubbo.registry.address=192.168.220.128:2181|192.168.221.129:2181,192.168.221.130:2181,192.168.221.131:2181 这就是两个注册中心配置sample -->
+                <mydubbo.zk><![CDATA[127.0.0.1:2181]]></mydubbo.zk>
+                <mydubbo.protocol.host>mylocal.whm.space</mydubbo.protocol.host>
+                <mydubbo.protocol.port>20443</mydubbo.protocol.port>
+                <mydubbo.qos.enable>false</mydubbo.qos.enable>
+                <mydubbo.qos.port>30443</mydubbo.qos.port>
+                <!-- server.port -->
+                <spring.server.port>9443</spring.server.port>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <package.environment>dev</package.environment>
+
+                <register.romote>true</register.romote>
+
+                <!-- idCenterDS -->
+                <idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+                <idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+                <idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+                <idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+                <!-- whmDM1 -->
+                <whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+                <whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8]]></whmDM1.jdbc.url>
+                <whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+                <whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+                <!-- dubbo zk -->
+                <mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
+                <mydubbo.protocol.host>192.168.50.231</mydubbo.protocol.host>
+                <mydubbo.protocol.port>20443</mydubbo.protocol.port>
+                <mydubbo.qos.enable>true</mydubbo.qos.enable>
+                <mydubbo.qos.port>30443</mydubbo.qos.port>
+                <!-- server.port -->
+                <spring.server.port>9443</spring.server.port>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <package.environment>product</package.environment>
+
+                <register.romote>true</register.romote>
+
+                <!-- idCenterDS -->
+                <idCenterDS.jdbc.driverclass>com.mysql.jdbc.Driver</idCenterDS.jdbc.driverclass>
+                <idCenterDS.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/idcenter?useSSL=false]]></idCenterDS.jdbc.url>
+                <idCenterDS.jdbc.username>root</idCenterDS.jdbc.username>
+                <idCenterDS.jdbc.password><![CDATA[root]]></idCenterDS.jdbc.password>
+                <!-- whmDM1 -->
+                <whmDM1.jdbc.driverclass>com.mysql.jdbc.Driver</whmDM1.jdbc.driverclass>
+                <whmDM1.jdbc.url><![CDATA[jdbc:mysql://mysql.test.whm.space:3306/keta_custom?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8]]></whmDM1.jdbc.url>
+                <whmDM1.jdbc.username>root</whmDM1.jdbc.username>
+                <whmDM1.jdbc.password><![CDATA[root]]></whmDM1.jdbc.password>
+                <!-- dubbo zk -->
+                <mydubbo.zk><![CDATA[server1.zookeeper.dubbo.whm.space:32181,server2.zookeeper.dubbo.whm.space:32182,server3.zookeeper.dubbo.whm.space:32183]]></mydubbo.zk>
+                <mydubbo.protocol.host></mydubbo.protocol.host>
+                <mydubbo.protocol.port>20443</mydubbo.protocol.port>
+                <mydubbo.qos.enable>true</mydubbo.qos.enable>
+                <mydubbo.qos.port>30443</mydubbo.qos.port>
+                <!-- server.port -->
+                <spring.server.port>9443</spring.server.port>
+            </properties>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>space.whm.demo</groupId>
+            <artifactId>whm-dubbo-api</artifactId>
+            <version>${whm-dubbo-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- mysql 驱动依赖 这里我选用的是8.0.11 大家可以自己调整自己的版本 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.11</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- mybatis 依赖 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+
+        <!-- retry重试 依赖 -->
+        <dependency>
+            <groupId>org.springframework.retry</groupId>
+            <artifactId>spring-retry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <!--解决IDE中调试时target目录下资源文件中变量未被替换问题,并未解决问题.-->
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <filtering>true</filtering>-->
+        <!--                <directory>src/main/resources</directory>-->
+        <!--                <includes>-->
+        <!--                    <include>**/*.yml</include>-->
+        <!--                    <include>**/*.properties</include>-->
+        <!--                    <include>**/*.xml</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <!-- 解决默认占位符@project.artifactId@在application.properties中不替换的问题 https://www.codenong.com/38983934/ -->
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/classes</outputDirectory>
+                            <resources> <!-- 注意resource顺序 -->
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                    <excludes>
+                                        <exclude>dev/**</exclude><!-- 不支持exclude文件夹,打包时使用assembly.xml提供exclude支持 -->
+                                        <exclude>local/**</exclude>
+                                        <exclude>product/**</exclude>
+                                    </excludes>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources/${package.environment}</directory>
+                                    <filtering>true</filtering>
+                                    <includes>
+                                        <!--关于星号(**/*.java)
+                                        (1)前面两个星号（**）表示在项目在所有文件夹（包括子文件夹）中的文件，*.java表要以.java结尾的所有文件。
+                                        (2)如果没有星号(/*.java)，那么直接在src目录下去寻找java文件
+                                        (3)如果只要一个*号的话，它只会去找src目录第一级下的java文件，不会去找它子包中的java文件，当然用三个星号(*号)它只会去找src文件第一级目录下的java文件（其实这点我不知道为什么要这么设计）。-->
+                                        <include>**/*.*</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <!-- https://stackoverflow.com/questions/13218313/unable-to-disable-generation-of-empty-jar-maven-jar-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <id>default-jar</id>
+                        <phase>none</phase><!-- 变相配置不打jar包,留给assembly去做 It will place the default jar creation in the none phase, it will never be run. -->
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -10,7 +10,7 @@
 	<description>The demo module of dubbo project</description>
 	<modules>
 		<module>whm-dubbo-api</module>
-		<!-- <module>whm-dubbo-dal-service</module> -->
+		<module>whm-dubbo-mybatis-service</module>
 		<module>whm-dubbo-mybatis-tk-service</module>
 		<module>whm-dubbo-mybatis-plus-service</module>
 		<module>whm-dubbo-web</module>

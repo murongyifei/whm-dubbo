@@ -10,4 +10,6 @@
                      interface="space.whm.demo.api.service.DemoService" />                 
 	<dubbo:reference id="whmtestService"
                      interface="space.whm.demo.api.service.WhmtestService" />
+	<dubbo:reference id="userInfoService"
+                     interface="com.example.demo.smm.service.UserInfoService" />
 </beans>

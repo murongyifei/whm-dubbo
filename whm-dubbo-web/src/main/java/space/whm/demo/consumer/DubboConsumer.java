@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import org.springframework.context.annotation.ImportResource;
 
 //import com.sxy618.log.threadpool.TtlThreadPoolTaskExecutor;
@@ -18,7 +19,7 @@ import org.springframework.context.annotation.ImportResource;
 @EnableDubbo
 @SpringBootApplication
 @ImportResource(value = { "whm-dubbo-web.xml" })
-@ComponentScan(basePackages = "space.whm.demo")
+@ComponentScans(value = {@ComponentScan(value = "space.whm.demo"),@ComponentScan(value = "com.example.demo")})
 public class DubboConsumer extends SpringBootServletInitializer {
 
 	public static void main(String[] args) throws Exception {
