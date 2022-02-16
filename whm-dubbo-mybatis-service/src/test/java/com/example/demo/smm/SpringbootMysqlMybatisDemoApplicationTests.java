@@ -15,9 +15,6 @@ class SpringbootMysqlMybatisDemoApplicationTests {
     void contextLoads() {
         UserInfo userInfoById = userInfoDao.getUserInfoById(1L);
         System.out.println(userInfoById);
-
-        userInfoById = userInfoDao.getUserInfoById(11L);
-        System.out.println(userInfoById);
     }
 
 }
