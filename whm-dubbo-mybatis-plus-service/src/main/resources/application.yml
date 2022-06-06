@@ -15,3 +15,7 @@ mybatis-mate:
 logging:
   level:
     com.baomidou.mybatisplus.samples.mysql: debug
+
+app:
+  build:
+    time: @curtimestamp@

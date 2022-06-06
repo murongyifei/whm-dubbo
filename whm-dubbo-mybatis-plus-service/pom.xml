@@ -21,6 +21,11 @@
         <maven.deploy.skip>true</maven.deploy.skip>
         
         <whm-dubbo-api.version>1.0.0-SNAPSHOT</whm-dubbo-api.version>
+
+        <!--maven.build.timestamp保存了maven编译时间戳-->
+        <curtimestamp>${maven.build.timestamp}</curtimestamp>
+        <!--指定时间格式-->
+        <maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
     </properties>
     
     <profiles>

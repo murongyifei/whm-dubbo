@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import space.whm.demo.api.entity.Whmtest;
 import space.whm.demo.api.service.DemoService;
 import space.whm.demo.api.service.WhmtestService;
+import space.whm.demo.consumer.aspect.CheckNet;
 
 
 @Controller
@@ -26,7 +27,6 @@ public class HomeController {
 	@Autowired
 	private WhmtestService whmtestService;
 	
-
 	@RequestMapping("/test")
     public void getMsg(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String hello = demoService.sayHello("world");

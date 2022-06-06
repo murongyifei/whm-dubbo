@@ -5,6 +5,7 @@ import com.example.demo.smm.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import space.whm.demo.consumer.aspect.CheckNet;
 
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class UserInfoController {
      * @return
      * @throws Exception
      */
+    @CheckNet
     @RequestMapping("/getUserInfoById")
     public UserInfo getUserInfoById(Long id) throws Exception {
 

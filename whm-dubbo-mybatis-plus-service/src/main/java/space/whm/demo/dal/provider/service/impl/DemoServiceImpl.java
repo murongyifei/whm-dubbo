@@ -21,6 +21,7 @@ import java.util.Date;
 import org.apache.dubbo.rpc.RpcContext;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
 import space.whm.demo.api.service.DemoService;
 
@@ -29,10 +30,13 @@ import space.whm.demo.api.service.DemoService;
 public class DemoServiceImpl implements DemoService {
 	
 	@Override
+    @CachePut(value = "name", key = "whmname")
     public String sayHello(String name) {
         System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         log.info("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] Hello " + name + ", request from consumer: " + RpcContext.getContext().getRemoteAddress());
         return "Hello " + name + ", response form provider: " + RpcContext.getContext().getLocalAddress();
     }
+
+
     
 }
